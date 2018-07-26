@@ -13,6 +13,8 @@ $ uptime
 
 ## Usage
 
+**This makes your computer unstable. Do NOT run on a computer you care about.**
+
 Disable SIP, Build in Xcode, then
 
 ```
@@ -21,6 +23,14 @@ sudo chown -R root:wheel UptimeChanger.kext
 sudo kextutil UptimeChanger.kext
 sudo sudo sysctl kern.changeboottime=<unix timestamp of system boot>
 ```
+
+Note: setting the timestamp to a negative value will cause ssh to fail with
+
+```
+select: invalid argument
+```
+
+Setting it back fixes it.
 
 ## Development notes
 
