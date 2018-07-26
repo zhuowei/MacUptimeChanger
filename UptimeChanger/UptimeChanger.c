@@ -58,36 +58,37 @@ static void (*ptr_commpage_update_boottime)(uint64_t value);
 static clock_sec_t *ptr_clock_boottime;
 static void findUptimeVar() {
     // disassemble
-    ptr_clock_get_boottime_microtime = lookup_symbol("clock_get_boottime_microtime");
+    ptr_clock_get_boottime_microtime = lookup_symbol("_clock_get_boottime_microtime");
     if (!ptr_clock_get_boottime_microtime) {
         IOLog("Cannot find clock_get_boottime_microtime");
         return;
     }
-    ptr_commpage_update_boottime = lookup_symbol("commpage_update_boottime");
+    ptr_commpage_update_boottime = lookup_symbol("_commpage_update_boottime");
     if (ptr_commpage_update_boottime == NULL) {
-        IOLog("Cannot find commpage_update_boottime");
+        IOLog("Cannot find commpage_update_boottime\n");
         return;
     }
     uint8_t* code = (uint8_t*)ptr_clock_get_boottime_microtime;
     for (int i = 0; i < 0x100; i++) {
+        //  0xffffff80003ddf88: 48 8b 05 09 73 a4 00  movq   0xa47309(%rip), %rax
         if (code[i] == 0x48 && code[i+1] == 0x8b && code[i+2] == 0x05) {
-            int32_t offset = *((int32_t*)(code + 3));
-            ptr_clock_boottime = (clock_sec_t*)(code + offset);
+            int32_t offset = *((int32_t*)(code + i + 3));
+            // rip is relative to the next instruction, so add length of cur instr
+            ptr_clock_boottime = (clock_sec_t*)(code + i + 7 + offset);
         }
     }
     clock_sec_t boottime_secs;
     clock_usec_t boottime_usecs;
     ptr_clock_get_boottime_microtime(&boottime_secs, &boottime_usecs);
     if (*ptr_clock_boottime != boottime_secs) {
-        IOLog("Invalid boottime");
+        IOLog("Invalid boottime\n");
         ptr_clock_boottime = NULL;
     }
-
 }
 
 static int UptimeChanger_sysctl_kern_changeboottime(struct sysctl_oid * oidp, void* arg1, int arg2, struct sysctl_req * req) {
     if (!ptr_clock_boottime) {
-        IOLog("Cannot find clock_boottime");
+        IOLog("Cannot find clock_boottime\n");
         return ENOTSUP;
     }
     int retval = sysctl_handle_long(oidp, ptr_clock_boottime, arg2, req);
@@ -95,7 +96,7 @@ static int UptimeChanger_sysctl_kern_changeboottime(struct sysctl_oid * oidp, vo
     clock_usec_t boottime_usecs;
     ptr_clock_get_boottime_microtime(&boottime_secs, &boottime_usecs);
     if (*ptr_clock_boottime != boottime_secs) {
-        IOLog("Can't set boottime");
+        IOLog("Can't set boottime\n");
         return ENOTSUP;
     }
     // update the commpage
