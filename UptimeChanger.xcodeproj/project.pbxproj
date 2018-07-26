@@ -8,12 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		C53A012C210960BA00ED7909 /* UptimeChanger.c in Sources */ = {isa = PBXBuildFile; fileRef = C53A012B210960BA00ED7909 /* UptimeChanger.c */; };
+		C53A01342109694600ED7909 /* kernel_resolver.c in Sources */ = {isa = PBXBuildFile; fileRef = C53A01332109694500ED7909 /* kernel_resolver.c */; };
+		C53A01362109695E00ED7909 /* kernel_resolver.h in Headers */ = {isa = PBXBuildFile; fileRef = C53A01352109695E00ED7909 /* kernel_resolver.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C53A0128210960BA00ED7909 /* UptimeChanger.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UptimeChanger.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		C53A012B210960BA00ED7909 /* UptimeChanger.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = UptimeChanger.c; sourceTree = "<group>"; };
 		C53A012D210960BA00ED7909 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C53A01332109694500ED7909 /* kernel_resolver.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kernel_resolver.c; sourceTree = "<group>"; };
+		C53A01352109695E00ED7909 /* kernel_resolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kernel_resolver.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +51,8 @@
 			isa = PBXGroup;
 			children = (
 				C53A012B210960BA00ED7909 /* UptimeChanger.c */,
+				C53A01332109694500ED7909 /* kernel_resolver.c */,
+				C53A01352109695E00ED7909 /* kernel_resolver.h */,
 				C53A012D210960BA00ED7909 /* Info.plist */,
 			);
 			path = UptimeChanger;
@@ -59,6 +65,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C53A01362109695E00ED7909 /* kernel_resolver.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +136,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C53A01342109694600ED7909 /* kernel_resolver.c in Sources */,
 				C53A012C210960BA00ED7909 /* UptimeChanger.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
